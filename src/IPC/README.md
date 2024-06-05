@@ -1,49 +1,46 @@
-# Java IPC using Sockets 
+# Java IPC using Sockets
+
+## Introduction
 The example includes a server that listens for client connections and processes messages, and a client that sends messages to the server.
 
 ## Project Structure
+- `MessageListener.java`: An interface for handling messages.
+- `Server.java`: The server class that listens for client connections.
+- `ClientHandler.java`: Handles each client connection in a separate thread.
+- `Client.java`: The client class that sends messages to the server.
+- `MessagePrinter.java`: An implementation of `MessageListener` that processes and prints messages.
+- `Main.java`: Entry point for running the server and client.
 
-- MessageListener.java: An interface for handling messages.
-- Server.java: The server class that listens for client connections.
-- ClientHandler.java:Handles each client connection in a separate thread.
-- Client.java: The client class that sends messages to the server.
-- MessagePrinter.java:An implementation of `MessageListener` that processes and prints messages.
-- Main.java:Entry point for running the server and client.
+## IPC (Inter-Process Communication)
+IPC is a mechanism that allows processes to communicate and share data. In this project, IPC is achieved using TCP sockets. The server listens for client connections, and when a client connects, it creates a separate thread (`ClientHandler`) to handle communication.
 
-### What is IPC:
-IPC (Inter-Process Communication) is a mechanism that allows processes (running instances of programs) to communicate and share data with each other. It enables coordination and collaboration between different processes on a computer system or across a network.
+## Description of Classes
+1. **MessageListener.java**
+   - Interface for handling messages.
+   - Contains a single method `onMessage(String message)`.
 
-In the provided example, IPC is achieved using TCP sockets. The server process listens for client connections, and when a client connects, it creates a separate thread (ClientHandler) to handle that client's communication. This allows multiple clients to interact with the server concurrently.
-The Client class connects to the server using a TCP socket and sends messages to the server. The server, upon receiving a message from a client, processes it and prints it using the MessagePrinter class, which implements the MessageListener interface for message handling.
-#### Description of Classes
-MessageListener.java
+2. **Server.java**
+   - Listens for client connections on a specified port using TCP sockets.
+   - Creates a new `ClientHandler` thread for each client connection.
 
-Interface for handling messages.
-Contains a single method onMessage(String message).
-Server.java
+3. **ClientHandler.java**
+   - Handles each client connection in a separate thread.
+   - Reads messages from clients and invokes `onMessage` method of `MessageListener`.
 
-Listens for client connections on a specified port using TCP sockets.
-Creates a new ClientHandler thread for each client connection.
-Delegates message processing to the ClientHandler class.
-ClientHandler.java
+4. **Client.java**
+   - Connects to the server using a TCP socket.
+   - Sends messages to the server.
 
-Handles each client connection in a separate thread.
-Reads messages from clients and invokes the onMessage method of a MessageListener implementation (MessagePrinter in this case).
-Client.java
+5. **MessagePrinter.java**
+   - Implements `MessageListener` interface.
+   - Processes and prints messages received from clients.
 
-Connects to the server using a TCP socket.
-Sends messages to the server.
-MessagePrinter.java
+6. **Main.java**
+   - Entry point for running the server and client.
 
-Implements the MessageListener interface.
-Processes and prints messages received from clients.
-Main.java
+## Advantages of Using IPC with Sockets
+- Provides a reliable and flexible way to establish communication.
+- TCP sockets ensure data integrity and order of messages.
+- Using threads allows concurrent handling of multiple clients.
+- Promotes modularity and code maintainability through interfaces.
 
-Entry point for running the server and client.
-Creates instances of the server, client, and MessagePrinter, and starts the server.
-
-##### Advantages of Using IPC with Sockets
-Sockets provide a reliable and flexible way to establish communication between processes.
-TCP sockets ensure data integrity and order of messages.
-Using threads (ClientHandler) allows concurrent handling of multiple clients, improving system responsiveness.
-Separation of concerns through interfaces (MessageListener) promotes modularity and code maintainability.
